@@ -49,5 +49,74 @@ testserver 39333 39111 10
 testclient 39222 39111 10 200 2000
 
 testserver stats:
-Total receives: 234
-Total sends: 205
+Total receives: 252
+Total sends: 209
+Total ack send: 168
+Total nak send: 41
+
+testclient stats:
+Total sends: 326
+Total receives: 167
+Total ack: 137
+Total nak: 30
+Total timeouts: 96
+
+
+Test 4: 0.5 drop probability, 0.1 delay, 100 queue size
+UDP-emulator 0.5 0.1 100 39111 39222 39333
+testserver 39333 39111 10
+testclient 39222 39111 10 200 2000
+
+testserver stats:
+Total receives: 363
+Total sends: 242
+Total ack send: 175
+Total nak send: 67
+
+testclient stats:
+Total sends: 755
+Total receives: 127
+Total ack: 96
+Total nak: 31
+Total timeouts: 524
+
+
+Test 5: 0.1 drop probability, 3 delay, 100 queue size (delay > timeout)
+UDP-emulator 0.1 3 100 39111 39222 39333
+testserver 39333 39111 10
+testclient 39222 39111 10 200 2000
+
+testserver stats:
+Total receives: 619
+Total sends: 590
+Total ack send: 569
+Total nak send: 21
+
+testclient stats:
+Total sends: 675
+Total receives: 522
+Total ack: 506
+Total nak: 16
+Total timeouts: 459
+
+
+Test 6: 0.1 drop probability, 0.1 delay, 7 queue size, 20 max seq no (window
+size > queue size)
+UDP-emulator 0.1 0.1 7 39111 39222 39333
+testserver 39333 39111 20
+testclient 39222 39111 20 200 2000
+
+testserver stats:
+Total receives: 228
+Total sends: 192
+Total ack send: 157
+Total nak send: 35
+
+testclient stats:
+Total sends: 309
+Total receives: 176
+Total ack: 145
+Total nak: 31
+Total timeouts: 78
+
+
