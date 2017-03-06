@@ -1,0 +1,53 @@
+To test, first run the UDP-emulator, then run testserver.  At last run the
+testclient.  Exit testserver and UDP-emulator with ctl+c or kill.  The command
+can be copied from below.
+
+-----------------------------------
+Test results
+-----------------------------------
+Test 1: 0 drop probability, 0.1 delay, 100 queue size
+UDP-emulator 0 0.1 100 39111 39222 39333
+testserver 39333 39111 10
+testclient 39222 39111 10 200 2000
+
+testserver stats:
+Total receives: 205
+Total sends: 205
+Total ack send: 200
+Total nak send: 5
+
+testclient stats:
+Total sends: 205
+Total receives: 205
+Total ack: 200
+Total nak: 5
+Total timeouts: 0
+
+
+Test 2: 0.1 drop probability, 0.1 delay, 100 queue size
+UDP-emulator 0.2 0.1 100 39111 39222 39333
+testserver 39333 39111 10
+testclient 39222 39111 10 200 2000
+
+testserver stats:
+Total receives: 212
+Total sends: 201
+Total ack send: 188
+Total nak send: 13
+
+testclient stats:
+Total sends: 232
+Total receives: 182
+Total ack: 169
+Total nak: 13
+Total timeouts: 19
+
+
+Test 3: 0.2 drop probability, 0.1 delay, 100 queue size
+UDP-emulator 0.2 0.1 100 39111 39222 39333
+testserver 39333 39111 10
+testclient 39222 39111 10 200 2000
+
+testserver stats:
+Total receives: 234
+Total sends: 205

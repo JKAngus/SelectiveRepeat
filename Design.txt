@@ -1,0 +1,85 @@
+Angus Jo Kwang
+anj218
+11136793
+
+Design document
+
+UDP-emulator
+
+Usage: UDP-emulator <p> <d> <q> <port A> <port B> <port C>
+  p - drop probability
+  d - delay value
+  q - maximum queue size
+  port A - the port that the emulator listens
+  port B - the port that the emulator receives from and sends to port C
+  port C - the port that the emulator receives from and sends to port B
+
+  The UDP-emulator takes in arguments and simulates a network between port B and
+port C.  Port A is opened for incoming packets.  When packets arrives to the
+emulator, it has p probability to get dropped immediately.  For the other 1-p
+probability, the emulator will first determine where the packet comes from.
+Then it will set up all the parameters and creates a new pthread.  Then it waits
+for new packets in port A again.
+  In the newly created pthread.  It will push the packet into the queue set
+by parent.  There are two queues, one for port B and one for port C.  The parent
+will determine which queue to use.  After pushing the packet, the pthread will
+sleep for d seconds.  Then it will pop the queue and send the packet to the
+designated port.  It is also set by the parent.  When the queue is full, any
+incoming packets will be dropped.
+  To quit the emulator, just send kill signal or ctl + c
+
+
+testserver
+
+Usage: testserver <server port> <client port> <max sequence number>
+  server port - the port that this server listens
+  client port - the port that this server replies to
+  max sequence number - should be same with client
+
+  The server first creates a window size of frames.  The window size will be
+(max sequence number + 1)/2.  Then it goes into a loop that listens to its
+port.
+  In the loop, it first checks wether should it shift the window.  It shifts
+the window when all the frames are received.  Then it gets packet from server
+port.  If the sequence number of the packet is not within the current window,
+it will reply with ack because it is probably from the previous window.  When
+the received packet in within the current window, it puts it into the frames.
+Then it sends it to the network layer if it is the next sequence number of the
+previous one and replies ack.  If it isn't the next one, it replies with the
+nak of the missing sequence number and blocks it self from sending another nak
+when receiving frames not the missing seq no.  When the server receives the
+missing seq no packet, it sends it to the network layer.  Then it checks the
+packets in frames and send them all to network layer if they are in seq no.
+If all frames are sent, reply with ack of the last seq no.  If still missing
+frame, then reply with nak of the missing seq.
+  The loop stops when kill signal or ctl+c is received.  It calculates all the
+statistics and free all allocated resources.
+
+
+testclient
+
+Usage: testclient <client port> <server port> <max sequence number> <number of
+packets> <timeout in ms>
+  client port - the port that this client listens
+  server port - the port that this client sends to
+  max sequence number - should be same with server
+  number of packets - number of packets it will generate and send to server
+  timeout in ms - timeout to re-sent frame in milli-seconds
+
+  The client first creates a window size of frames.  The window size will be
+(max sequence number + 1)/2.  It should be the same with the server.  Then it
+generates packets to send based on the argument.  Then it goes into a loop to
+send and receive.
+  To send and receive, select is used.  The client first checks wether shoudl
+it shift the window.  It shifts the window when all the frames received ack.
+Then select finds out there are packets to receive, the client will receive
+them.  If it is an ack, it marks all the frames with equal or smaller sequence
+number to acknowledged.  When it receives nak, it marks all the frames with
+smaller seq no to acknowledged and resends the frame that the nak specifies.
+When there are nothing in the ports to receive, the client will send out
+packets and put them into frames until frames is full.  When the frames
+timeout and ack is not marked, it will resend them.
+  The loop stops when there are input from keyboard or all packets are sent.
+Then it calculates all the statistics and free all allocated resources.
+
+

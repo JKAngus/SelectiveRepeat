@@ -1,0 +1,108 @@
+commit d31d08ca9c24c555492806341ae504074d6b4312
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Sat Mar 4 16:39:45 2017 -0600
+
+    Design document and test results
+
+commit 7ffd801c6a5e1216f93cba8c8683ae8aa0e3f4ca
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Tue Feb 28 19:00:35 2017 -0600
+
+    Minor fix
+    
+    Correct some minor stuffs
+    	server receive stat moved to correct place
+    	fixed indent
+    	unify frame[] with seqno instead of frame number
+
+commit af72e261064478c03022944fce516849bbb6c9d0
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Tue Feb 28 18:17:19 2017 -0600
+
+    Cleaned up code and added statistics
+    
+    cleaned up codes
+    removed unneccessary codes, commented out logs
+    added statistics
+    show statistics when exiting client/server
+
+commit b2d3c9f2e55d8fb63352b03850dd980c574ea2ca
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Tue Feb 28 17:41:02 2017 -0600
+
+    Inplemented selective repeat
+    
+    FINALLY! ITS DONE!!!
+    now server and client works with selective repeat
+    able to test using the UDP-emulator
+    Still lots of log message
+    next step is to clean up code and add statistics
+
+commit 5fb54e940de9f0e543f3fe5aa6006223dc178fcb
+Author: Angus Jo Kwang <anj218@tux7.usask.ca>
+Date:   Wed Feb 22 18:34:46 2017 -0600
+
+    Created common library
+    
+    Created common library for encode/decode
+    Added tests for common library
+
+commit 7556d5b3eb44a63bcf064466507bdb2b25771baf
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Mon Feb 20 22:34:37 2017 -0600
+
+    Minor fix
+    
+    now works on both port
+
+commit 361dad46a3db8dcc75cfd1363281e6c6794cbec7
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Mon Feb 20 22:28:00 2017 -0600
+
+    Modified UDP-emulator
+    
+    message now stay's in queue for d seconds
+    same socket/port will be used to send out messages
+    	this is to support testing with netcat
+
+commit 7e1135f84237ee2fd2856ac4ef6811a4cbac11c4
+Author: Angus Jo Kwang <anj218@tux6.usask.ca>
+Date:   Mon Feb 20 17:17:11 2017 -0600
+
+    Implemented UDP emulator and test client
+    
+    Test client for sending message to the emulator
+    2queues in emulator
+    2 pthread child constant checks if queue is empty.  If not then send out
+    message every d second
+    I might misinterpretate.  Going to change to each elements stays in
+    queue for d seconds instead of popping queue every 2 seconds
+
+commit d5187ccd57b68a92c4da98c3850c698fa298ebf6
+Author: Angus Jo Kwang <anj218@tux7.usask.ca>
+Date:   Fri Feb 17 16:09:52 2017 -0600
+
+    Queue implementation
+    
+    Created queue library with tests
+
+commit c11852272913b846499c32c45cfd60e59acaad9d
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Thu Feb 16 18:36:23 2017 -0600
+
+    Created initial udp emulator
+    
+    Makefile
+    Creates and binds to socket
+    pthread stub
+    exit with ctl+c
+
+commit 84214675dffa236cb491c783b5dde8f5d0c8501b
+Author: Angus Jo Kwang <anj218@tux8.usask.ca>
+Date:   Thu Feb 16 16:16:20 2017 -0600
+
+    Move assignment 1 into A1
+    
+    Moved assignment1 to A1
+    Created A2
+
